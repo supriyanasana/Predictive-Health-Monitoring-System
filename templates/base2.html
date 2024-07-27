@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Symptoms Form</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Disease Symptoms</h1>
+        <form action="submit_form.py" method="post">
+            <div class="form-group">
+                <label for="symptom1">Symptom1:</label>
+                <select id="symptoms" name="symptoms">
+                   
+                        <option value="{{ symptom }}">{{ symptom }}</option>
+                   
+                </select><br>
+
+                <label for="symptom2">Symptom2:</label>
+                <select id="symptoms" name="symptoms">
+                    {% for symptom in symptoms %}
+                        <option value="{{ symptom }}">{{ symptom }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <!-- Repeat for symptom3 to symptom7 -->
+
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

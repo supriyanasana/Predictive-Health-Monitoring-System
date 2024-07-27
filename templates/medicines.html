@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Diseases</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Diseases</h1>
+
+        <form id="diseaseForm" action="/selected" method="post">
+            <input type="text" id="searchBox" name="disease" placeholder="Search for a disease...">
+            <ul id="searchResults"></ul>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        var diseases = {{ diseases|tojson }};
+
+        var searchBox = document.getElementById('searchBox');
+        var searchResults = document.getElementById('searchResults');
+
+        searchBox.addEventListener('input', function() {
+            var searchTerm = this.value.trim().toLowerCase();
+            var filteredDiseases = diseases.filter(function(disease) {
+                return disease.toLowerCase().indexOf(searchTerm) !== -1;
+            });
+
+            // Clear previous results
+            searchResults.innerHTML = '';
+
+            // Add new results
+            filteredDiseases.forEach(function(disease) {
+                var li = document.createElement('li');
+                li.textContent = disease;
+                li.addEventListener('click', function() {
+                    searchBox.value = disease;
+                    searchResults.style.display = 'none'; // Hide the results after selection
+                });
+                searchResults.appendChild(li);
+            });
+
+            // Display or hide results
+            if (searchTerm === '') {
+                searchResults.style.display = 'none';
+            } else {
+                searchResults.style.display = 'block';
+            }
+        });
+
+        document.getElementById('diseaseForm').addEventListener('submit', function(event) {
+            var selectedDisease = searchBox.value.trim();
+            if (!selectedDisease) {
+                event.preventDefault(); // Prevent form submission if no disease selected
+                alert('Please select a disease.');
+            }
+        });
+    </script>
+</body>
+</html>
